@@ -26,7 +26,11 @@ class RawStatement:
 def load_config(config_path: str = "config.yaml") -> dict:
     """Load the source/column-mapping config."""
     # TODO: open config_path, yaml.safe_load(), return dict
-    raise NotImplementedError
+    with open(config_path, "r") as f:
+            config = yaml.safe_load(f)
+    dict = config["sources"] 
+    return dict
+
 
 
 def find_files_for_source(raw_data_dir: Path, file_pattern: str) -> list[Path]:

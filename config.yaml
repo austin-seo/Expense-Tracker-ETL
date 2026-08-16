@@ -15,10 +15,12 @@ sources:
   citi_costco_credit_card:
     file_pattern: "citi_costco*.csv"          # glob pattern to identify this source
     column_map:
-      date: "Transaction Date"
+      month: null
+      date: "Date"
+      category: null
+      subcategory: null
+      amount: "Debit"
       description: "Description"
-      amount: "Amount"
-      category: "Category"
     amount_sign: "positive_is_expense"  # or "positive_is_income"
     date_format: "%m/%d/%Y"
 

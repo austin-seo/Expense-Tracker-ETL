@@ -12,8 +12,8 @@
 # between banks and credit cards, so get it right per source.
 
 sources:
-  chase_credit_card:
-    file_pattern: "chase*.csv"          # glob pattern to identify this source
+  citi_costco_credit_card:
+    file_pattern: "citi_costco*.csv"          # glob pattern to identify this source
     column_map:
       date: "Transaction Date"
       description: "Description"
@@ -22,8 +22,18 @@ sources:
     amount_sign: "positive_is_expense"  # or "positive_is_income"
     date_format: "%m/%d/%Y"
 
-  amex:
-    file_pattern: "amex*.csv"
+  amex_gold_credit_card:
+    file_pattern: "amex_gold*.csv"
+    column_map:
+      date: "Date"
+      description: "Description"
+      amount: "Amount"
+      category: null                     # not provided by source, will be null
+    amount_sign: "positive_is_expense"
+    date_format: "%m/%d/%Y"
+  
+  iq_credit_card:
+    file_pattern: "iq_credit_card*.csv"
     column_map:
       date: "Date"
       description: "Description"
@@ -32,8 +42,8 @@ sources:
     amount_sign: "positive_is_expense"
     date_format: "%m/%d/%Y"
 
-  chase_checking:
-    file_pattern: "chase_checking*.csv"
+  iq_checking:
+    file_pattern: "iq_checking*.csv"
     column_map:
       date: "Posting Date"
       description: "Description"
@@ -44,8 +54,8 @@ sources:
 
 # Global settings
 settings:
-  raw_data_dir: "./data/raw"
-  processed_data_dir: "./data/processed"
+  raw_data_dir: "./Data/raw"
+  processed_data_dir: "./Data/processed"
   google_sheet_name: "Expense Tracker"
   google_sheet_tab: "Transactions"
   google_credentials_path: "./credentials/service_account.json"

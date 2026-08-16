@@ -1,0 +1,51 @@
+# ASEO NOTE: claude generated skeleton
+
+# config.yaml
+# One entry per statement source. Add a new block here whenever you onboard
+# a new bank/credit card — no code changes needed in transform.py.
+#
+# `column_map` keys = normalized field names (don't change these)
+# `column_map` values = the actual column header in that source's raw CSV
+#
+# `amount_sign` tells transform.py whether a positive number in the raw file
+# means money OUT (expense) or money IN (refund/payment) — this varies a lot
+# between banks and credit cards, so get it right per source.
+
+sources:
+  chase_credit_card:
+    file_pattern: "chase*.csv"          # glob pattern to identify this source
+    column_map:
+      date: "Transaction Date"
+      description: "Description"
+      amount: "Amount"
+      category: "Category"
+    amount_sign: "positive_is_expense"  # or "positive_is_income"
+    date_format: "%m/%d/%Y"
+
+  amex:
+    file_pattern: "amex*.csv"
+    column_map:
+      date: "Date"
+      description: "Description"
+      amount: "Amount"
+      category: null                     # not provided by source, will be null
+    amount_sign: "positive_is_expense"
+    date_format: "%m/%d/%Y"
+
+  chase_checking:
+    file_pattern: "chase_checking*.csv"
+    column_map:
+      date: "Posting Date"
+      description: "Description"
+      amount: "Amount"
+      category: "Type"
+    amount_sign: "positive_is_income"
+    date_format: "%m/%d/%Y"
+
+# Global settings
+settings:
+  raw_data_dir: "./data/raw"
+  processed_data_dir: "./data/processed"
+  google_sheet_name: "Expense Tracker"
+  google_sheet_tab: "Transactions"
+  google_credentials_path: "./credentials/service_account.json"

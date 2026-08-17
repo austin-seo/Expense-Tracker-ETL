@@ -27,30 +27,36 @@ sources:
   amex_gold_credit_card:
     file_pattern: "amex_gold*.csv"
     column_map:
+      month: null
       date: "Date"
-      description: "Description"
-      amount: "Amount"
-      category: null                     # not provided by source, will be null
+      category: null
+      subcategory: null
+      amount: "Debit"
+      description: "Description"                    # not provided by source, will be null
     amount_sign: "positive_is_expense"
     date_format: "%m/%d/%Y"
   
   iq_credit_card:
     file_pattern: "iq_credit_card*.csv"
     column_map:
+      month: null
       date: "Date"
-      description: "Description"
+      category: null
+      subcategory: null
       amount: "Amount"
-      category: null                     # not provided by source, will be null
+      description: "Description"
     amount_sign: "positive_is_expense"
     date_format: "%m/%d/%Y"
 
   iq_checking:
     file_pattern: "iq_checking*.csv"
     column_map:
+      month: null
       date: "Posting Date"
-      description: "Description"
+      category: null
+      subcategory: null
       amount: "Amount"
-      category: "Type"
+      description: "Description"
     amount_sign: "positive_is_income"
     date_format: "%m/%d/%Y"
 

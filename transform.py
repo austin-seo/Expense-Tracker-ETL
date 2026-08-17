@@ -6,7 +6,7 @@ transform.py
 Takes raw, source-specific DataFrames and normalizes them into ONE
 consistent schema:
 
-    date | description | amount | category | source | txn_id
+    txn_id | month | date | category | subcategory | amount | description | source
 
 `amount` convention: negative = money out (expense), positive = money in.
 This is the "canonical" sign convention for the whole pipeline — resolve
@@ -20,7 +20,7 @@ import pandas as pd
 
 from extract import RawStatement
 
-NORMALIZED_COLUMNS = ["date", "description", "amount", "category", "source", "txn_id"]
+NORMALIZED_COLUMNS = ["txn_id", "month", "date", "category", "subcategory", "amount", "description", "source"]
 
 
 def rename_columns(df: pd.DataFrame, column_map: dict) -> pd.DataFrame:

@@ -17,6 +17,7 @@ from datetime import datetime
 import hashlib
 
 import pandas as pd
+import numpy as np
 
 from extract import RawStatement
 
@@ -30,7 +31,13 @@ def rename_columns(df: pd.DataFrame, column_map: dict) -> pd.DataFrame:
           and call df.rename(columns=...). Handle missing/null mappings
           (e.g. category: null) by creating an empty column instead.
     """
-    raise NotImplementedError
+    df = df.copy()
+    for normalized_name, raw_name in column_map.items():
+        if raw_name is None:
+            df[normalized_name] = np.nan  # Create an empty column if mapping is None
+        else:
+            df = df.rename(columns={raw_name: normalized_name})
+    return df
 
 
 def normalize_dates(df: pd.DataFrame, date_format: str) -> pd.DataFrame:

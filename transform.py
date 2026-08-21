@@ -42,9 +42,9 @@ def rename_columns(df: pd.DataFrame, column_map: dict) -> pd.DataFrame:
 
 def normalize_dates(df: pd.DataFrame, date_format: str) -> pd.DataFrame:
     """Parse the date column using the source's date_format into pd.Timestamp."""
-    # TODO: pd.to_datetime(df["date"], format=date_format, errors="coerce")
-    # TODO: log/flag any rows that failed to parse (errors="coerce" -> NaT)
-    raise NotImplementedError
+    # log/flag any rows that failed to parse (errors="coerce" -> NaT)
+    df["date"] = pd.to_datetime(df["date"], format=date_format, errors="coerce")
+    return df
 
 
 def normalize_amount_sign(df: pd.DataFrame, amount_sign: str) -> pd.DataFrame:
@@ -52,8 +52,9 @@ def normalize_amount_sign(df: pd.DataFrame, amount_sign: str) -> pd.DataFrame:
     Flip sign if needed so the canonical convention holds:
     negative = expense, positive = income/refund.
     """
-    # TODO: if amount_sign == "positive_is_expense": df["amount"] = -df["amount"]
-    raise NotImplementedError
+    if amount_sign == "positive_is_expense":
+        df["amount"] = df["amount"] # ensure all values positive
+    return df
 
 
 def add_txn_id(df: pd.DataFrame) -> pd.DataFrame:

@@ -63,10 +63,10 @@ def add_txn_id(df: pd.DataFrame) -> pd.DataFrame:
     so we can dedupe transactions that show up in multiple exports
     (e.g. re-downloading overlapping date ranges).
     """
-    # TODO: df["txn_id"] = df.apply(lambda r: hashlib.md5(
-    #     f"{r['date']}{r['description']}{r['amount']}{r['source']}".encode()
-    # ).hexdigest(), axis=1)
-    raise NotImplementedError
+    df["txn_id"] = df.apply(lambda r: hashlib.md5(
+            f"{r['date']}{r['description']}{r['amount']}{r['source']}".encode()
+        ).hexdigest(), axis=1)
+    return df
 
 
 def categorize(df: pd.DataFrame) -> pd.DataFrame:
@@ -86,8 +86,11 @@ def normalize_statement(stmt: RawStatement, source_cfg: dict) -> pd.DataFrame:
     df = normalize_dates(df, source_cfg["date_format"])
     df = normalize_amount_sign(df, source_cfg["amount_sign"])
     df["source"] = stmt.source_name
+    df["month"] = df["date"].dt.to_period("M")  # Add month column for grouping
     df = add_txn_id(df)
     df = categorize(df)
+    df = df.dropna(subset=['amount']) # Drop rows where amount is NaN
+    
     return df[NORMALIZED_COLUMNS]
 
 

@@ -123,9 +123,9 @@ def normalize_statement(stmt: RawStatement, source_cfg: dict) -> pd.DataFrame:
     df["source"] = stmt.source_name
     df["month"] = df["date"].dt.to_period("M")  # Add month column for grouping
     df = add_txn_id(df)
-    df = categorize(df)
-    df = df.dropna(subset=['amount']) # Drop rows where amount is NaN
-    
+    df["subcategory"] = df["description"].apply(subcategorize)
+    df["category"] = df["subcategory"].apply(categorize)
+    df = df.dropna(subset=['amount']) # Drop rows where amount is NaN 
     return df[NORMALIZED_COLUMNS]
 
 

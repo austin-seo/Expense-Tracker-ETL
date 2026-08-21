@@ -23,6 +23,22 @@ from extract import RawStatement
 
 NORMALIZED_COLUMNS = ["txn_id", "month", "date", "category", "subcategory", "amount", "description", "source"]
 
+# Define category mapping rules based on keywords
+subcategory_map = {
+    "Groceries": ["supermarket", "walmart", "trader joe", "kroger", "costco", "whole foods"],
+    "Dining": ["restaurant", "starbucks", "mcdonalds", "cafe", "chipotle", "dunkin", "burger king", "subway"],
+    "Utilities": ["electric", "water", "internet", "gas & electric", "xfinity", "verizon", "spectrum"],
+    "Transport": ["uber", "lyft", "shell", "chevron", "transit", "costco gas"],
+    "Shopping": ["amazon", "target", "best buy", "walmart", "home depot", "lowes", "REI", "nike", "adidas", "zara", "h&m", "abercrombie", "gap", "old navy", "macys", "nordstrom", "sephora", "ulta"],
+    "Subscriptions": ["netflix", "spotify", "hulu", "disney+", "peacock", "adobe", "dropbox", "ZWIFT", "peloton", "apple music", "prime video"],
+    "Travel": ["airbnb", "delta", "united", "southwest", "expedia", "hotels.com", "alaska air", "american airlines", "united airlines", "jetblue", "travelocity", "kayak"],
+}
+
+category_map = {
+    "Essentials": ["Groceries", "Utilities", "Transport"],
+    "Non-Essentials": ["Dining", "Shopping", "Subscriptions", "Travel"],
+    "Investments": ["Savings", "Investments", "Retirement"],
+}
 
 def rename_columns(df: pd.DataFrame, column_map: dict) -> pd.DataFrame:
     """
@@ -69,14 +85,33 @@ def add_txn_id(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-def categorize(df: pd.DataFrame) -> pd.DataFrame:
+def subcategorize(desc: str) -> str:
     """
     Fill in missing categories using simple keyword rules on `description`
     (e.g. "STARBUCKS" -> "Coffee", "SHELL OIL" -> "Gas").
     TODO: start with a small dict of {keyword: category}, expand over time.
     Leave category as-is if the source already provided one.
     """
-    raise NotImplementedError
+    desc_lower = str(desc).lower()
+    for category, keywords in subcategory_map.items():
+        for keyword in keywords:
+            if keyword in desc_lower:
+                return category
+    return "Other"  # Default category if no keywords match
+
+def categorize(subcategory: str) -> str:
+    """
+    Fill in missing categories using simple keyword rules on `description`
+    (e.g. "STARBUCKS" -> "Coffee", "SHELL OIL" -> "Gas").
+    TODO: start with a small dict of {keyword: category}, expand over time.
+    Leave category as-is if the source already provided one.
+    """
+    sub_cat_lower = str(subcategory).lower()
+    for category, keywords in category_map.items():
+        for keyword in keywords:
+            if keyword in sub_cat_lower:
+                return category
+    return "Other"  # Default category if no keywords match
 
 
 def normalize_statement(stmt: RawStatement, source_cfg: dict) -> pd.DataFrame:

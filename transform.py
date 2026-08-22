@@ -25,13 +25,15 @@ NORMALIZED_COLUMNS = ["txn_id", "month", "date", "category", "subcategory", "amo
 
 # Define category mapping rules based on keywords
 subcategory_map = {
-    "Groceries": ["supermarket", "walmart", "trader joe", "kroger", "costco", "whole foods"],
+    "Groceries": ["supermarket", "walmart", "trader joe", "kroger", "costco whse", "whole foods", "h mart", "h-mart", "hmart"],
     "Dining": ["restaurant", "starbucks", "mcdonalds", "cafe", "chipotle", "dunkin", "burger king", "subway"],
     "Utilities": ["electric", "water", "internet", "gas & electric", "xfinity", "verizon", "spectrum"],
-    "Transport": ["uber", "lyft", "shell", "chevron", "transit", "costco gas"],
+    "Transport": ["uber", "lyft", "shell", "chevron", "transit", "costco gas", "orca"],
     "Shopping": ["amazon", "target", "best buy", "walmart", "home depot", "lowes", "REI", "nike", "adidas", "zara", "h&m", "abercrombie", "gap", "old navy", "macys", "nordstrom", "sephora", "ulta"],
-    "Subscriptions": ["netflix", "spotify", "hulu", "disney+", "peacock", "adobe", "dropbox", "ZWIFT", "peloton", "apple music", "prime video"],
+    "Subscriptions": ["netflix", "spotify", "hulu", "disney+", "peacock", "adobe", "dropbox", "ZWIFT", "peloton", "apple music", "prime video", "audible", "strava", "amazon web services", "aws", "google drive", "icloud", "microsoft office", "office 365"],
     "Travel": ["airbnb", "delta", "united", "southwest", "expedia", "hotels.com", "alaska air", "american airlines", "united airlines", "jetblue", "travelocity", "kayak"],
+    "Investments": ["vanguard", "fidelity", "schwab", "robinhood", "etrade", "td ameritrade", "merrill edge", "charles schwab"],
+    "Savings": ["savings", "high yield", "ally", "capital one", "discover", "barclays"],
 }
 
 category_map = {

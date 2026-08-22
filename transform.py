@@ -40,6 +40,10 @@ category_map = {
     "Investments": ["Savings", "Investments", "Retirement"],
 }
 
+# normalize keywords to lowercase for case-insensitive matching
+subcategory_map = {cat: [kw.lower() for kw in kws] for cat, kws in subcategory_map.items()}
+category_map = {cat: [kw.lower() for kw in kws] for cat, kws in category_map.items()}
+
 def rename_columns(df: pd.DataFrame, column_map: dict) -> pd.DataFrame:
     """
     Rename raw columns to normalized names using column_map from config.
@@ -153,7 +157,7 @@ if __name__ == "__main__":
     cfg = load_config()
     raw = extract_all(cfg)
     clean = transform_all(raw, cfg)
-    
+
     # Force pandas to print all columns and format nicely
     pd.set_option('display.max_columns', None)
     pd.set_option('display.width', 1000)

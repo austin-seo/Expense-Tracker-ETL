@@ -136,16 +136,15 @@ def transform_all(raw_statements: list, config: dict) -> pd.DataFrame:
     """
     normalized_frames = []
 
-    # TODO:
-    # for stmt in raw_statements:
-    #     source_cfg = config["sources"][stmt.source_name]
-    #     normalized_frames.append(normalize_statement(stmt, source_cfg))
+    for stmt in raw_statements:
+        source_cfg = config["sources"][stmt.source_name]
+        normalized_frames.append(normalize_statement(stmt, source_cfg))
+    
+    combined = pd.concat(normalized_frames, ignore_index=True)
+    combined = combined.drop_duplicates(subset="txn_id")
+    combined = combined.sort_values("date")
 
-    # TODO: combined = pd.concat(normalized_frames, ignore_index=True)
-    # TODO: combined = combined.drop_duplicates(subset="txn_id")
-    # TODO: combined = combined.sort_values("date")
-
-    raise NotImplementedError
+    return combined
 
 
 if __name__ == "__main__":
@@ -154,4 +153,11 @@ if __name__ == "__main__":
     cfg = load_config()
     raw = extract_all(cfg)
     clean = transform_all(raw, cfg)
-    print(clean.head())
+    
+    # Force pandas to print all columns and format nicely
+    pd.set_option('display.max_columns', None)
+    pd.set_option('display.width', 1000)
+    pd.set_option('display.colheader_justify', 'center')
+
+    print(clean.head(10))  # Pint first 10 rows without index
+    print(f"Total transactions after deduplication: {len(clean)}")
